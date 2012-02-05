@@ -49,7 +49,16 @@ $(document).ready(function() {
       }]
    };
 
-   $.get('http://crap.muromec.org.ua/~muromec/budget_2012/budget2012.tsv', null, function(tsv) {
+   var show_it = function(file) {
+       if (document.location.hostname == 'localhost') {
+         var url ='';
+       } else {
+         var url = 'http://crap.muromec.org.ua/~muromec/budget_2012/';
+       }
+       $.get(url + file, null,  parse);
+   };
+
+   var parse = function(tsv) {
         tsv = tsv.split(/\n/g);
         var data = [];
         var small = 0.0;
@@ -63,13 +72,11 @@ $(document).ready(function() {
 
             if(perc.toString() == "NaN") { return  }
 
-            if(perc < 0.6) { 
+            if(line[0]=='category' && perc < 0.6) { 
                 small += perc;
                 small_m += money;
                 return;
             }
-
-            console.log(perc);
 
             data.push( {
                 name: title, 
@@ -77,15 +84,27 @@ $(document).ready(function() {
                 money: money,
             });
         })
-        data.push( {
-            name: 'Все остальное (сумма малых процентов)',
-            y: small,
-            money: small_m,
-        });
+        if(small > 0) {
+            data.push( {
+                name: 'Все остальное (сумма малых процентов)',
+                y: small,
+                money: small_m,
+            });
+        }
         options.series[0].data = data;
         data[0].sliced = true;
         data[0].selected = true;
         var chart = new Highcharts.Chart(options);
+   };
+
+   show_it('tagged.tsv');
+   $('a.chart_style').click(function() {
+        var file = $(this).attr('file');
+        console.log(file);
+        show_it(file);
+
+        return false;
+        
    });
 
 });
