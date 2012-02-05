@@ -15,3 +15,6 @@ data/doc_210369.xls:
 
 clean:
 	rm -rf bin lib include share data
+
+mark: data/doc_210369.xls bin/python
+	bin/python rada_explain.py
