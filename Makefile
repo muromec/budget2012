@@ -2,7 +2,7 @@
 URL = 'http://w1.c1.rada.gov.ua/pls/zweb2/webproc34?id=&pf3511=41157&pf35401=210369'
 
 all: data/doc_210369.xls bin/python
-	bin/python rada.py
+	bin/rada -r $<
 
 bin/python:
 	python -m virtualenv .
@@ -17,4 +17,4 @@ clean:
 	rm -rf bin lib include share data
 
 mark: data/doc_210369.xls bin/python
-	bin/python rada_explain.py
+	bin/rada $<
