@@ -50,12 +50,7 @@ $(document).ready(function() {
    };
 
    var show_it = function(file) {
-       if (document.location.hostname == 'localhost') {
-         var url ='';
-       } else {
-         var url = 'http://crap.muromec.org.ua/~muromec/budget_2012/';
-       }
-       $.get(url + file, null,  parse);
+       $.get(file, null,  parse);
    };
 
    var parse = function(tsv) {
