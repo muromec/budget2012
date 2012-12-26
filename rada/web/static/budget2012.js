@@ -97,10 +97,10 @@ $(document).ready(function() {
         var chart = new Highcharts.Chart(options);
    };
 
-   show_it('tagged.tsv');
+   var file = $('a.chart_style').attr('file');
+   show_it(file);
    $('a.chart_style').click(function() {
         var file = $(this).attr('file');
-        console.log(file);
         show_it(file);
 
         return false;
